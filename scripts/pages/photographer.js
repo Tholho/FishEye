@@ -47,6 +47,9 @@ async function getPhotographers() {
 function displayHeaderDOM(photographerDOM) {
     const photographerHeader = document.querySelector(".photograph-header");
 
+    const name_modal = document.querySelector(".name_modal");
+    name_modal.insertAdjacentText("beforeend", " " + photographerDOM.h2_name.innerText);
+
     const textDiv = document.createElement('div');
     textDiv.classList.add("photographerMainInfo")
 
@@ -256,28 +259,48 @@ function setupLightbox() {
 }
 const contact_modal = document.querySelector(".modal");
 const closeSVG = document.querySelector(".closeSVG");
+const submit = document.querySelector(".submit_button");
 
 
 // Contact Form closing cleanup
-function closeModal() {
+async function closeModal() {
     contact_modal.style.display = "none";
-    contact_modal.close();
-    closeSVG.removeEventListener("click", closeModal);
-    contact_modal.removeEventListener("close", closeModal);
+    await closeSVG.removeEventListener("click", closeModal);
+    await contact_modal.removeEventListener("close", closeModal);
+    await submit.removeEventListener("click", submitForm);
+    await submit.removeEventListener("keydown", enterToClick);
+    await contact_modal.close();
 }
 
 // Contact Form opening events
-function showContact(event) {
+async function showContact(event) {
     contact_modal.style.display = "flex";
     contact_modal.showModal();
-    closeSVG.addEventListener("click", closeModal);
-    contact_modal.addEventListener("close", closeModal);
+    await closeSVG.addEventListener("click", closeModal);
+    await contact_modal.addEventListener("close", closeModal);
+    await submit.addEventListener("click", submitForm);
+    await submit.addEventListener("keydown", enterToClick);
+    await contact_modal.showModal();
 }
 
-// Contact form event
+// Contact form display event
 function setupContact() {
     const contactButton = document.querySelector(".contact_button");
     contactButton.addEventListener("click", showContact);
+}
+
+// Contact form submit event
+function submitForm(event) {
+    const form_inputs = document.querySelectorAll("input, textarea");
+
+    event.preventDefault();
+
+    form_inputs.forEach(input => {
+        if (input.value){
+        console.log(input.value);
+        }
+    });
+    closeModal();
 }
 
 //Dynamically initialize photographer's page
