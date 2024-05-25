@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+  <title>Fisheye - photographe </title>
+</head>
+
+<body>
+  <header>
+    <a tabindex="0" class="anchorlogo" href="index.html"><img src="assets/images/logo.png" class="logo"
+        alt="Fisheye Home Page" /></a>
+  </header>
+  <main id="main">
+    <div class="photograph-header">
+      <button class="contact_button">Contactez-moi</button>
+    </div>
+    <div class="sortingGroup">
+      <h3>Trier par</h3>
+      <div class="customDropdown">
+        <button class="dropdownBtn">Popularité <i class="fa-solid fa-angle-down" title="Derouler le menu"></i></button>
+        <ul class="sortingSelector" id="sort">
+          <li tabindex="0" role="option" data-value="likes">Popularité<i class="fa-solid fa-angle-up" title="Replier le menu"></i></li>
+          <li tabindex="0" role="option" data-value="date">Date</li>
+          <li tabindex="0" role="option" data-value="title">Titre</li>
+        </ul>
+      </div>
+    </div>
+    <section class="gallery_section">
+    </section>
+    <div class="likes_price">
+      <div class="likes_heart">
+      <p class="likes_footer"></p><i class="fa-solid fa-heart"></i>
+      </div>
+      <p class="price_footer">€ / jour</p>
+    </div>
+  </main>
+  <dialog class="lightboxModal">
+    <div class="lightboxContent">
+      <div class="imgAndTitle">
+        <!-- This must be generated dynamically
+        <img tabindex="0" src="" alt="">
+        <video controls><source></video>
+        <h3 class="lightboxTitle">CONTENU TEST</h3>
+        -->
+      </div>
+      <i tabindex="0" class="fa-solid fa-angle-left"></i>
+      <i tabindex="0" class="fa-solid fa-angle-right"></i>
+      <i tabindex="0" class="fa-solid fa-xmark"></i>
+    </div>
+  </dialog>
+  <dialog class="modal">
+      <header>
+        <h2>Contactez-moi</h2>
+        <img class="closeSVG" src="assets/icons/close.svg" alt="Icone de fermeture du formulaire de contact">
+      </header>
+      <form>
+        <div>
+          <label for="first">Prénom</label>
+          <input type="text" name="first" id="first">
+        </div>
+        <div>
+          <label for="last">Nom</label>
+          <input type="text" name="last" id="last">
+        </div>
+        <div>
+          <label for="email">Adresse lectronique</label>
+          <input type="email" name="email" id="email">
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <input type="text" name="message" id="message">
+        </div>
+        <button class="contact_button">Envoyer</button>
+      </form>
+  </dialog>
+  <script src="scripts/templates/photographer.js"></script>
+  <script type="module" src="scripts/pages/photographer.js"></script>
+  <script src="scripts/utils/contactForm.js"></script>
+</body>
+
+</html>

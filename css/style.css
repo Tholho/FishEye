@@ -1,0 +1,109 @@
+@import url("photographer.css");
+
+/** WIP **/
+* {
+}
+
+/*
+*:focus {
+    border:4px solid black;
+}
+html,
+body {
+    height: 100%;
+    margin:0;
+}
+*/
+/** WIP **/
+
+body {
+    font-family: "DM Sans", sans-serif;
+    margin: 0;
+}
+
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+main {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+h1 {
+    color: #901C1C;
+    margin-right: 100px;
+}
+
+.anchorlogo {
+    margin-left: 100px;
+}
+
+.logo {
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+.photographer_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 80px;
+    margin: 100px 0px;
+}
+
+.photographer_section article {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.photographer_section article * {
+    margin: 0;
+}
+
+/* display contents might make clicking less accessible */
+.photographer_section article a {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.photographer_section article h2 {
+    color: #D3573C;
+    font-size: 2.25rem;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.photographer_section article img {
+    margin-bottom: 25px;
+    height: 200px;
+    width: 200px;
+    border-radius: 100%;
+    object-fit: cover;
+    box-sizing: border-box;
+    border: 4px solid rgba(255, 255, 255, 0.5)
+}
+
+.photographer_section article h3 {
+    font-size: 1.125rem;
+    color: #901C1C
+}
+
+.photographer_section article .photographerTagline {
+    font-size: 1rem;
+    color: #000000;
+}
+
+.photographer_section article .photographerPrice {
+    font-size: 0.9rem;
+    color: #757575;
+}
