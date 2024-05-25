@@ -337,8 +337,6 @@ option {
 }
 
 .modal header {
-    display: flex;
-    flex-flow: column;
     width: 100%;
 }
 
