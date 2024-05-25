@@ -52,12 +52,10 @@ import UserCardDOM from "../oo/UserCardDOM";
     async function displayData(photographers) {
         const photographersSection = document.querySelector(".photographer_section");
         console.log(photographers)
-      //  let     itabindex = 2;
         photographers.forEach((photographer) => {
             const photographerDOM = new UserCardDOM(photographer);
             const articleDOM = makeArticle(photographerDOM);
             photographersSection.appendChild(articleDOM);
-          //  itabindex++;
         });
     }
 

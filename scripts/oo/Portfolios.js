@@ -2,8 +2,9 @@ export default class Portfolio {
     constructor(data, id) {
         const  owner = data.filter((entries) => entries["photographerId"] == id);
         this.medias = owner;
-        console.log(owner);
+       // console.log(owner);
     }
+
     sortBy(filter) {
         if (filter == "likes") {
         this.medias.sort((a, b) => b.likes - a.likes);

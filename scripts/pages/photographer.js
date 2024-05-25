@@ -1,16 +1,6 @@
 import UserCardDOM from "../oo/UserCardDOM";
 import MediaFactory from "../oo/MediaFactory";
 import Portfolio from "../oo/Portfolios";
-import sortArticlesBy from "../oo/Sorting";
-
-function sortBy(element) {
-    const button = document.querySelector(".dropdownBtn");
-    console.log(element);
-    sortGallery(element.dataset.value);
-    element.parentNode.style.display = "none";
-    button.innerHTML = element.textContent + `<i class="fa-solid fa-angle-down" title="Derouler le menu"></i>`;
-    button.style.display = "block";
-}
 
 function cancelSort() {
     const button = document.querySelector(".dropdownBtn");
@@ -28,44 +18,9 @@ const cancelHandler = e => {
     }
 };
 
-function displaySortList(portfolio) {
-    const button = document.querySelector(".dropdownBtn");
-    const list = document.querySelector(".sortingSelector");
-    const firstListItem = list.querySelector("li");
-    const lastListItem = list.lastChild.previousSibling;
-    lastListItem.addEventListener("focusout", cancelSort);
-
-    button.style.display = "none";
-    list.style.display = "block";
-    firstListItem.focus();
-    document.removeEventListener("click", cancelHandler);
-    document.addEventListener("click", cancelHandler);
-    list.onclick = function (event) {
-        event.stopPropagation();
-        let target = event.target;
-        if (target.role != "option") {
-            list.style.display = "none";
-            button.style.display = "block";
-        }
-        else {
-            portfolio.sortBy(target.dataset.value);
-            target.parentNode.style.display = "none";
-            button.innerHTML = target.textContent + `<i class="fa-solid fa-angle-down" title="Derouler le menu"></i>`;
-            button.style.display = "block";
-            makeGallery(portfolio);
-            setupLightbox();
-        }
-    }
-}
-
-function sortingEventChain() {
-    const button = document.querySelector(".dropdownBtn");
-    button.addEventListener("click", displaySortList);
-}
-
-
 async function getPhotographers() {
     const data = sessionStorage.getItem("sessionJson");
+
     if (data != null) {
         const jsonData = JSON.parse(data);
         return (jsonData);
@@ -91,37 +46,41 @@ async function getPhotographers() {
 
 function displayHeaderDOM(photographerDOM) {
     const photographerHeader = document.querySelector(".photograph-header");
+
     const textDiv = document.createElement('div');
     textDiv.classList.add("photographerMainInfo")
+
     const h1_name = document.createElement('h1');
     h1_name.innerText = photographerDOM.h2_name.innerText;
-    const   h2_place = document.createElement('h2');
+
+    const h2_place = document.createElement('h2');
     h2_place.innerText = photographerDOM.h3_place.innerText;
+
     textDiv.appendChild(h1_name);
     textDiv.appendChild(h2_place);
     textDiv.appendChild(photographerDOM.p_tagline);
-
     photographerHeader.prepend(textDiv);
+
     photographerDOM.img_photo.alt = "Photo de profil de " + h1_name.innerText;
     photographerHeader.appendChild(photographerDOM.img_photo);
 }
 
-
-
-
-
+//This big function creates all the DOM and its dynamic linking to allow navigation
 async function fillLightbox(domElem) {
     const lightbox = document.querySelector("dialog");
     await lightbox.addEventListener("close", closeLightboxEvent);
+
     const previousImageFA = document.querySelector(".fa-angle-left");
     const nextImageFA = document.querySelector(".fa-angle-right");
     const closeFA = document.querySelector(".fa-xmark");
     const imgAndTitle = document.querySelector(".imgAndTitle");
+
     let cloneToLightbox = domElem.cloneNode(true);
 
     //Extracting image and title from DOM
     let media = cloneToLightbox.firstChild;
     let mediaTitle = cloneToLightbox.firstChild.nextSibling.firstChild.textContent;
+
     let h2_mediaTitle = document.createElement('h2');
     h2_mediaTitle.textContent = mediaTitle;
 
@@ -151,10 +110,13 @@ async function fillLightbox(domElem) {
         if (domElem.nextSibling) {
             let nextMedia = domElem.nextSibling;
             let nextClone = nextMedia.cloneNode(true);
+
             if (nextClone.nodeName == "VIDEO") {
                 nextClone.controls = true;
             }
+
             imgAndTitle.innerHTML = '';
+
             fillLightbox(nextMedia);
             await removeLightboxListeners();
         }
@@ -162,6 +124,7 @@ async function fillLightbox(domElem) {
             return;
         }
     }
+
     function arrowNav(event) {
         if (event.key == "ArrowRight") {
             nextMediaEvent(event);
@@ -175,27 +138,24 @@ async function fillLightbox(domElem) {
     await previousImageFA.addEventListener("click", prevMediaEvent);
     await document.addEventListener("keydown", arrowNav);
 
+    closeFA.removeEventListener("keydown", enterToClick);
+    closeFA.addEventListener("keydown", enterToClick);
+    nextImageFA.removeEventListener("keydown", enterToClick);
+    nextImageFA.addEventListener("keydown", enterToClick);
+    previousImageFA.removeEventListener("keydown", enterToClick);
+    previousImageFA.addEventListener("keydown", enterToClick);
+
+
     async function closeLightbox() {
         await closeLightboxEvent();
         await lightbox.close();
     }
-    
+
     async function closeLightboxEvent() {
         const imgAndTitle = document.querySelector(".imgAndTitle");
-        /*
-        const lightboxContent = document.querySelector(".lightboxContent");
-        const deleteImg = lightboxContent.querySelector('img');
-        const deleteVideo = lightboxContent.querySelector('video');
-        if (deleteImg) {
-            deleteImg.remove();
-        }
-        if (deleteVideo) {
-            deleteVideo.remove();
-        }
-        */
-       await removeLightboxListeners();
+
+        await removeLightboxListeners();
         imgAndTitle.innerHTML = '';
-        console.log("wtf")
     }
     async function removeLightboxListeners() {
         await closeFA.removeEventListener("click", closeLightbox);
@@ -206,18 +166,12 @@ async function fillLightbox(domElem) {
     }
 }
 
-
-
-// building the lightbox must be externalized and will be called upon changing content, showmodal should call it once
+// Shows lightbox and calls the function that creates DOM
 async function showLightbox(event) {
-    let originalEvent = event;
     fillLightbox(this.parentNode);
     const lightbox = document.querySelector(".lightboxModal");
     await lightbox.showModal();
-    console.log("hello");
-
 }
-
 
 //fills the gallery with photographers medias
 async function makeGallery(portfolio) {
@@ -230,7 +184,7 @@ async function makeGallery(portfolio) {
         content.appendChild(art);
     });
     let exists = document.querySelector(".gallery_content")
-    //controle si la galerie existe, si oui, la remplace
+    //controls if gallery exists, if it does, replace it
     if (exists) {
         exists.replaceWith(content);
     }
@@ -253,8 +207,43 @@ async function displayData(photographers, id, media) {
     });
     const portfolio = new Portfolio(media, id);
     await makeGallery(portfolio);
-    await sortingEventChain();
     await likesManager();
+
+    const button = document.querySelector(".dropdownBtn");
+    button.addEventListener("click", displaySortList);
+
+    function displaySortList() {
+        const list = document.querySelector(".sortingSelector");
+        const firstListItem = list.querySelector("li");
+        const lastListItem = list.lastChild.previousSibling;
+
+        lastListItem.addEventListener("focusout", cancelSort);
+
+        button.style.display = "none";
+        list.style.display = "block";
+        firstListItem.focus();
+        document.removeEventListener("click", cancelHandler);
+        document.addEventListener("click", cancelHandler);
+        list.onclick = function (event) {
+            event.stopPropagation();
+            let target = event.target;
+            if (target.role != "option") {
+                list.style.display = "none";
+                button.style.display = "block";
+            }
+            else {
+                portfolio.sortBy(target.dataset.value);
+                target.parentNode.style.display = "none";
+                button.innerHTML = target.textContent + `<i class="fa-solid fa-angle-down" title="Derouler le menu"></i>`;
+                button.style.display = "block";
+                makeGallery(portfolio);
+                setupLightbox();
+            }
+        }
+        //Keyboard handling of previous click event for accessible navigation
+        list.removeEventListener("keydown", enterToClick);
+        list.addEventListener("keydown", enterToClick);
+    }
 }
 
 // Links the lightbox event to each media
@@ -262,11 +251,14 @@ function setupLightbox() {
     const mediaToLightbox = document.querySelectorAll(".mediaPart");
     mediaToLightbox.forEach(media => {
         media.addEventListener("click", showLightbox);
+        media.addEventListener("keydown", enterToClick);
     });
 }
 const contact_modal = document.querySelector(".modal");
 const closeSVG = document.querySelector(".closeSVG");
 
+
+// Contact Form closing cleanup
 function closeModal() {
     contact_modal.style.display = "none";
     contact_modal.close();
@@ -274,6 +266,7 @@ function closeModal() {
     contact_modal.removeEventListener("close", closeModal);
 }
 
+// Contact Form opening events
 function showContact(event) {
     contact_modal.style.display = "flex";
     contact_modal.showModal();
@@ -296,12 +289,8 @@ async function init() {
     await setupContact();
 };
 
-//Document elements that must be loaded at the proper time 
-// because the page must be loaded in timely manner
 
-init();
-
-//This adds a like when user interacts with heart icon and updates sticky footer
+// This adds a like when user interacts with heart icon and updates sticky footer
 function incrementLike(event) {
     event.target.previousSibling.innerText = +event.target.previousSibling.innerText + 1;
     event.target.removeEventListener("click", incrementLike);
@@ -317,7 +306,7 @@ function likesManager() {
     totalLikes();
 }
 
-//Sums up all likes from the DOM and updates footer accordingly when called
+// Sums up all likes from the DOM and updates footer accordingly when called
 function totalLikes() {
     const likesSumDOM = document.querySelectorAll(".mediumLikes");
     let total = 0;
@@ -327,3 +316,12 @@ function totalLikes() {
     const likes_footer = document.querySelector(".likes_footer");
     likes_footer.innerText = total;
 }
+
+// Allows to easily makes "Enter Key" trigger click events
+function enterToClick(event) {
+    if (event.keyCode === 13) {
+        event.target.click();
+    }
+};
+
+init();
