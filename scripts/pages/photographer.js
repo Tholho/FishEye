@@ -193,15 +193,59 @@ async function makeGallery(portfolio) {
     const gallery = document.querySelector(".gallery_section")
     const content = document.createElement("div");
     content.classList.add("gallery_content");
-    portfolio.medias.forEach((media) => {
+    let i = 0;
+
+
+    const promises = portfolio.medias.map(media => {
         const unit = new MediaFactory(media);
-        const art = unit.makeArticle();
-        content.appendChild(art);
-    });
-    let exists = document.querySelector(".gallery_content")
+        return fetch(unit.url)
+        .then(response => {
+            if (response.ok) {
+            const art = unit.makeArticle();
+            content.appendChild(art);
+            i++;
+            }
+        })
+    })
+
+
+    /*
+    const promises = portfolio.medias.map(media => {
+        const unit = new MediaFactory(media);
+        let exists = fetch(unit.url);
+        exists.then(response => {
+            if (response.ok) {
+            const art = unit.makeArticle();
+            content.appendChild(art);
+            i++;
+            likesManager();
+            }
+        })
+    })
+
+
+    await portfolio.medias.forEach((media) => {
+        const unit = new MediaFactory(media);
+                let exists = fetch(unit.url);
+                if (exists) {
+                console.log(exists);
+                }
+                exists.then(response => {
+                    if (response.ok) {
+                        const art = unit.makeArticle();
+                        content.appendChild(art);
+                        i++;
+                        console.log(i);
+                    }
+                });
+                //console.log(exists.status);
+    });*/
+    await Promise.all(promises);
+  //  likesManager();
+    let galleryExists = document.querySelector(".gallery_content")
     //controls if gallery exists, if it does, replace it
-    if (exists) {
-        exists.replaceWith(content);
+    if (galleryExists) {
+        galleryExists.replaceWith(content);
     }
     else {
         gallery.appendChild(content);
@@ -267,8 +311,14 @@ async function displayData(photographers, id, media) {
         }
     });
     const portfolio = new Portfolio(media, id);
-    await makeGallery(portfolio);
+
+    await makeGallery(portfolio)
     await likesManager();
+    /*
+    await makeGallery(portfolio)
+    await likesManager();
+    */
+
 
     const button = document.querySelector(".dropdownBtn");
     const list = document.querySelector(".sortingSelector");
@@ -400,6 +450,7 @@ function totalLikes() {
     });
     const likes_footer = document.querySelector(".likes_footer");
     likes_footer.innerText = total;
+
 }
 
 // Allows to easily makes "Enter Key" trigger click events

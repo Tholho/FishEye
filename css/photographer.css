@@ -213,6 +213,10 @@ option {
 .gallery_content article h3 {
 }
 
+.textData h3 {
+    margin: 20px 0px;
+}
+
 .textData i {
     margin: 0px 5px;
 }
@@ -220,6 +224,8 @@ option {
 .divLikes {
     display: flex;
     align-items: center;
+    transition: color 0.5s;
+    align-self: flex-start;
 }
 
 .gallery_section {
@@ -232,10 +238,6 @@ option {
     align-self: center;
     align-items: center;
     
-}
-
-.divLikes {
-    transition: color 0.5s;
 }
 
 .divLikes:hover {

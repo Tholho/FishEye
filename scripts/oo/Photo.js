@@ -31,6 +31,7 @@ export default class Photo {
         this.price = data.price;
         this.likes = data.likes;
         this.order = 0;
+        this.url = picture;
     }
     makeArticle() {
         const article = this.article;
