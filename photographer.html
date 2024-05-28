@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css">
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 <body>
   <header>
     <a tabindex="0" class="anchorlogo" href="index.html"><img src="assets/images/logo.png" class="logo"
-        alt="Fisheye Home Page" /></a>
+        alt="Fisheye Home Page" ></a>
   </header>
   <main id="main">
     <div class="photograph-header">
@@ -24,16 +24,16 @@
     <div class="sortingGroup">
       <h3>Trier par</h3>
       <div class="customDropdown">
-        <button class="dropdownBtn">Popularité <i class="fa-solid fa-angle-down" title="Derouler le menu"></i></button>
-        <ul class="sortingSelector" id="sort">
-          <li tabindex="0" role="option" data-value="likes">Popularité<i class="fa-solid fa-angle-up" title="Replier le menu"></i></li>
-          <li tabindex="0" role="option" data-value="date">Date</li>
-          <li tabindex="0" role="option" data-value="title">Titre</li>
+        <button class="dropdownBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Selection du tri par popularite, date, ou titre">Popularité <i class="fa-solid fa-angle-down" title="Derouler le menu"></i></button>
+        <ul class="sortingSelector" role="listbox" id="sort" aria-activedescendant="likes">
+          <li tabindex="0" role="option" data-value="likes" id="likes" aria-labelledby="span_pop" aria-selected="true"><span class="through_sorting" id="span_pop">Popularité</span><i class="fa-solid fa-angle-up" title="Replier le menu"></i></li>
+          <li tabindex="0" role="option" data-value="date" id="date" aria-labelledby="span_date" aria-selected="false"><span class="through_sorting" id="span_date">Date</span></li>
+          <li tabindex="0" role="option" data-value="title" id="title" aria-labelledby="span_title" aria-selected="false"><span class="through_sorting" id="span_title">Titre</span></li>
         </ul>
       </div>
     </div>
-    <section class="gallery_section">
-    </section>
+    <div class="gallery_section">
+    </div>
     <div class="likes_price">
       <div class="likes_heart">
       <p class="likes_footer"></p><i class="fa-solid fa-heart"></i>
@@ -41,7 +41,7 @@
       <p class="price_footer">€ / jour</p>
     </div>
   </main>
-  <dialog class="lightboxModal">
+  <dialog class="lightboxModal" aria-label="media closeup view">
     <div class="lightboxContent">
       <div class="imgAndTitle">
         <!-- This must be generated dynamically
@@ -50,38 +50,38 @@
         <h3 class="lightboxTitle">CONTENU TEST</h3>
         -->
       </div>
-      <i tabindex="0" class="fa-solid fa-angle-left"></i>
-      <i tabindex="0" class="fa-solid fa-angle-right"></i>
-      <i tabindex="0" class="fa-solid fa-xmark"></i>
+      <a tabindex="0" class="prevImageLink" aria-label="Previous Image"><i class="fa-solid fa-angle-left"></i></a>
+      <a tabindex="0" class="nextImageLink" aria-label="Next Image"><i class="fa-solid fa-angle-right"></i></a>
+      <i tabindex="0" class="fa-solid fa-xmark" aria-label="Close dialog"></i>
     </div>
   </dialog>
   <dialog class="modal">
-      <header>
+      <div class="header_modal">
         <h2>Contactez-moi</h2>
-        <h2 class="name_modal"></h2>
-      </header>
-      <form action="" method="get">
+        <h2 class="name_modal">Photographer Name</h2>
+      </div>
+      <form method="get">
         <div>
           <label for="first">Prénom</label>
-          <input tabindex="0" type="text" name="first" id="first">
+          <input tabindex="0" type="text" name="first" id="first" aria-label="First name">
         </div>
         <div>
           <label for="last">Nom</label>
-          <input tabindex="0" type="text" name="last" id="last">
+          <input tabindex="0" type="text" name="last" id="last" aria-label="Last name">
         </div>
         <div>
           <label for="email">Adresse électronique</label>
-          <input tabindex="0" type="email" name="email" id="email">
+          <input tabindex="0" type="email" name="email" id="email" aria-label="Email">
         </div>
         <div>
           <label for="message">Message</label>
-          <textarea tabindex="0" class="message" name="message" id="message" placeholder="Votre message"></textarea>
+          <textarea tabindex="0" rows="6" class="message" name="message" id="message" aria-label="Your message" placeholder="Votre message"></textarea>
         </div>
-        <button tabindex="0" type="submit" class="contact_button submit_button">Envoyer</button>
+        <button tabindex="0" type="submit" class="contact_button submit_button" aria-label="Send">Envoyer</button>
       </form>
-      <img tabindex="0" class="closeSVG" src="assets/icons/close.svg" alt="Icone de fermeture du formulaire de contact">
+      <img tabindex="0" class="closeSVG" src="assets/icons/close.svg" alt="Close contact form">
   </dialog>
-  <script src="scripts/templates/photographer.js"></script>
+ <!-- <script src="scripts/templates/photographer.js"></script> -->
   <script type="module" src="scripts/pages/photographer.js"></script>
   <script src="scripts/utils/contactForm.js"></script>
 </body>

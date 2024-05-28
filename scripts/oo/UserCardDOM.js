@@ -6,6 +6,7 @@ export default class   UserCardDOM {
         this.h2_name = document.createElement('h2');
         this.h2_name.classList.add("photographerName");
         this.h2_name.textContent = data.name;
+        this.h2_name.ariaLabel = "Nom du photographe";
         this.h3_place = document.createElement('h3');
         this.h3_place.classList.add("photographerPlace");
         this.h3_place.textContent = data.city + ", " + data.country;

@@ -2,12 +2,20 @@ import UserCardDOM from "../oo/UserCardDOM";
 import MediaFactory from "../oo/MediaFactory";
 import Portfolio from "../oo/Portfolios";
 
-function cancelSort() {
-    const button = document.querySelector(".dropdownBtn");
-    const list = document.querySelector(".sortingSelector");
 
+const button = document.querySelector(".dropdownBtn");
+const list = document.querySelector(".sortingSelector");
+
+function displaySort() {
+    button.style.display = "none";
+    button.ariaExpanded =  "true";
+    list.style.display = "block";
+}
+
+function cancelSort() {
     list.style.display = "none";
     button.style.display = "block";
+    button.ariaExpanded = "false";
 }
 
 const cancelHandler = e => {
@@ -48,7 +56,10 @@ function displayHeaderDOM(photographerDOM) {
     const photographerHeader = document.querySelector(".photograph-header");
 
     const name_modal = document.querySelector(".name_modal");
-    name_modal.insertAdjacentText("beforeend", " " + photographerDOM.h2_name.innerText);
+    name_modal.innerText =  photographerDOM.h2_name.innerText;
+
+    const modal = document.querySelector(".modal");
+    modal.ariaLabel = "Contact me " + photographerDOM.h2_name.innerText;
 
     const textDiv = document.createElement('div');
     textDiv.classList.add("photographerMainInfo")
@@ -73,8 +84,8 @@ async function fillLightbox(domElem) {
     const lightbox = document.querySelector("dialog");
     await lightbox.addEventListener("close", closeLightboxEvent);
 
-    const previousImageFA = document.querySelector(".fa-angle-left");
-    const nextImageFA = document.querySelector(".fa-angle-right");
+    const previousImageLink = document.querySelector(".prevImageLink");
+    const nextImageLink = document.querySelector(".nextImageLink");
     const closeFA = document.querySelector(".fa-xmark");
     const imgAndTitle = document.querySelector(".imgAndTitle");
 
@@ -91,8 +102,9 @@ async function fillLightbox(domElem) {
         media.controls = true;
     }
     await imgAndTitle.prepend(h2_mediaTitle);
+    media.ariaLabel = h2_mediaTitle.textContent;
     await imgAndTitle.prepend(media);
-
+    media.focus();
     async function prevMediaEvent() {
         if (domElem.previousSibling) {
             let previousMedia = domElem.previousSibling;
@@ -137,16 +149,16 @@ async function fillLightbox(domElem) {
         }
     }
     await closeFA.addEventListener("click", closeLightbox);
-    await nextImageFA.addEventListener("click", nextMediaEvent);
-    await previousImageFA.addEventListener("click", prevMediaEvent);
+    await nextImageLink.addEventListener("click", nextMediaEvent);
+    await previousImageLink.addEventListener("click", prevMediaEvent);
     await document.addEventListener("keydown", arrowNav);
 
     closeFA.removeEventListener("keydown", enterToClick);
     closeFA.addEventListener("keydown", enterToClick);
-    nextImageFA.removeEventListener("keydown", enterToClick);
-    nextImageFA.addEventListener("keydown", enterToClick);
-    previousImageFA.removeEventListener("keydown", enterToClick);
-    previousImageFA.addEventListener("keydown", enterToClick);
+    nextImageLink.removeEventListener("keydown", enterToClick);
+    nextImageLink.addEventListener("keydown", enterToClick);
+    previousImageLink.removeEventListener("keydown", enterToClick);
+    previousImageLink.addEventListener("keydown", enterToClick);
 
 
     async function closeLightbox() {
@@ -163,14 +175,14 @@ async function fillLightbox(domElem) {
     async function removeLightboxListeners() {
         await closeFA.removeEventListener("click", closeLightbox);
         await lightbox.removeEventListener("close", closeLightboxEvent);
-        await nextImageFA.removeEventListener("click", nextMediaEvent);
-        await previousImageFA.removeEventListener("click", prevMediaEvent);
+        await nextImageLink.removeEventListener("click", nextMediaEvent);
+        await previousImageLink.removeEventListener("click", prevMediaEvent);
         await document.removeEventListener("keydown", arrowNav);
     }
 }
 
 // Shows lightbox and calls the function that creates DOM
-async function showLightbox(event) {
+async function showLightbox() {
     fillLightbox(this.parentNode);
     const lightbox = document.querySelector(".lightboxModal");
     await lightbox.showModal();
@@ -196,6 +208,52 @@ async function makeGallery(portfolio) {
     }
 }
 
+function setupSort() {
+    const listItems = list.querySelectorAll("li");
+    function arrowSort(event) {
+        event.preventDefault();
+        if (event.key === "Escape") {
+            cancelSort();
+        }
+        const prevSibling = event.target.previousElementSibling;
+        const nextSibling = event.target.nextElementSibling;
+
+      if (event.key === "ArrowUp" || (event.shiftKey && event.key === "Tab") && prevSibling?.nodeName == "LI") {
+        prevSibling.focus();
+      }
+      else if (event.key === "ArrowDown" || (!event.shiftKey && event.key === "Tab") && nextSibling?.nodeName == "LI") {
+        nextSibling.focus();
+      }
+    }
+
+    function selectAria(event) {
+        list.setAttribute("aria-activedescendant", event.target.id);
+      //  event.target.ariaSelected = "true";
+    }
+
+    function deselectAria(event) {
+        if (button.innerText === event.target.innerText) {
+            list.setAttribute("aria-activedescendant", event.target.id);
+            event.target.ariaSelected = "true";
+            listItems.forEach(item => {
+                if (item != event.target) {
+                    item.ariaSelected = "false";
+                }
+            })
+        }
+        else {
+            event.target.ariaSelected = "false";
+        }
+    }
+
+    listItems.forEach(item => {
+        item.addEventListener("keydown", arrowSort);
+        item.addEventListener("focusin", selectAria);
+        item.addEventListener("focusout", deselectAria);
+    });
+}
+
+
 //Main dynamic filling of the page with json data, it calls 3 important functions, displayHeader that will fill the Hero with
 // the appropriate photographer's info, makeGallery that will fill the gallery section with medias, and finally likesManager 
 // which will handle all likes dynamics
@@ -213,26 +271,28 @@ async function displayData(photographers, id, media) {
     await likesManager();
 
     const button = document.querySelector(".dropdownBtn");
+    const list = document.querySelector(".sortingSelector");
     button.addEventListener("click", displaySortList);
 
+    
     function displaySortList() {
-        const list = document.querySelector(".sortingSelector");
         const firstListItem = list.querySelector("li");
-        const lastListItem = list.lastChild.previousSibling;
-
-        lastListItem.addEventListener("focusout", cancelSort);
-
-        button.style.display = "none";
-        list.style.display = "block";
+        displaySort();
         firstListItem.focus();
+
+        
+        /*
+        lastListItem.addEventListener("keydown", loopFocusEnd);
+        firstListItem.addEventListener("keydown", loopFocusBegin);
+        */
         document.removeEventListener("click", cancelHandler);
         document.addEventListener("click", cancelHandler);
         list.onclick = function (event) {
             event.stopPropagation();
             let target = event.target;
             if (target.role != "option") {
-                list.style.display = "none";
-                button.style.display = "block";
+                cancelSort();
+               // lastListItem.removeEventListener("focusout", loopFocusEnd);
             }
             else {
                 portfolio.sortBy(target.dataset.value);
@@ -241,6 +301,7 @@ async function displayData(photographers, id, media) {
                 button.style.display = "block";
                 makeGallery(portfolio);
                 setupLightbox();
+                button.ariaExpanded = "false";
             }
         }
         //Keyboard handling of previous click event for accessible navigation
@@ -273,7 +334,7 @@ async function closeModal() {
 }
 
 // Contact Form opening events
-async function showContact(event) {
+async function showContact() {
     contact_modal.style.display = "flex";
     contact_modal.showModal();
     await closeSVG.addEventListener("click", closeModal);
@@ -310,6 +371,7 @@ async function init() {
     await displayData(photographers, id, media);
     await setupLightbox();
     await setupContact();
+    await setupSort();
 };
 
 
@@ -342,9 +404,38 @@ function totalLikes() {
 
 // Allows to easily makes "Enter Key" trigger click events
 function enterToClick(event) {
-    if (event.keyCode === 13) {
+    if (event.key === "Enter") {
         event.target.click();
     }
 };
 
 init();
+
+
+// ARIA LABELS SUR BUTTONS, INPUTS, LIKES ET SUR IMAGES AVEC ALT
+
+//Aria events 
+
+// const dropdownBtn = document.querySelector('.dropdownBtn');
+//const sortingSelector = document.querySelector('.sortingSelector');
+// const options = sortingSelector.querySelectorAll('[role="option"]');
+
+/*
+
+dropdownBtn.addEventListener('click', () => {
+    dropdownBtn.setAttribute('aria-expanded', true);
+    sortingSelector.style.display = !expanded ? 'block' : 'none';
+});
+dropdownBtn.addEventListener("keydown", enterToClick);
+
+options.forEach(option => {
+    option.addEventListener('focus', (event) => {
+        options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+        event.currentTarget.setAttribute('aria-selected', 'true');
+        dropdownBtn.innerText = event.currentTarget.innerText;
+        dropdownBtn.setAttribute('aria-expanded', 'false');
+    });
+    option.addEventListener("keydown", enterToClick);
+});
+
+*/

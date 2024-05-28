@@ -15,6 +15,7 @@ export default class Video {
         media.appendChild(src);
         media.tabIndex = 0;
         media.classList.add("mediaPart");
+        media.ariaLabel = "Une video artistique, close up view";
         this.article.appendChild(media);
         h3_title.textContent = data.title;
         div_text.appendChild(h3_title);

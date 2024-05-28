@@ -1,11 +1,12 @@
+/*
 function photographerTemplate(data) {
     const { name, city, country, tagline, price, portrait } = data;
 
     //console.log(portrait)
     const picture = `assets/photographers/${portrait}`;
 
-    /* this should actually be returning an abstract DOM without appending anything
-    ideally only create simple markup and attributes */
+     this should actually be returning an abstract DOM without appending anything
+    ideally only create simple markup and attributes 
     function getUserCardDOM() {
 
         const article = document.createElement( 'article' );
@@ -26,7 +27,7 @@ function photographerTemplate(data) {
         p_price.textContent = price;
         
 
-        /* cas du DOM de l'index */
+         cas du DOM de l'index 
         article.appendChild(img);
         article.appendChild(h2);
         article.appendChild(h3);
@@ -36,5 +37,7 @@ function photographerTemplate(data) {
         
     }
 
-    return {/* name, picture, */getUserCardDOM }
+    return {/* name, picture, getUserCardDOM }
 }
+
+*/

@@ -13,12 +13,14 @@ export default class Photo {
         media.alt = "Une photo nommée " + data.title;
         media.tabIndex = 0;
         media.classList.add("mediaPart");
+        media.ariaLabel = data.title + ", close up view";
         this.article.appendChild(media);
         h3_title.textContent = data.title;
         div_text.appendChild(h3_title);
         p_likes.textContent = data.likes;
         p_likes.classList.add("mediumLikes");
         fa_likes.classList.add("fa-solid", "fa-heart");
+        fa_likes.ariaLabel = "likes";
         div_likes.appendChild(p_likes);
         div_likes.appendChild(fa_likes);
         div_likes.classList.add("divLikes");

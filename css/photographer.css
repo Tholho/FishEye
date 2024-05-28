@@ -292,10 +292,19 @@ option {
     font-size: 1.5rem;
 }
 
+.lightboxContent .prevImageLink {
+    order: 0;
+    align-self: center;
+    margin: 2rem;
+}
+
 .lightboxContent .fa-angle-left {
     color:#901C1C;
     font-size: 5rem;
-    order: 0;
+}
+
+.lightboxContent .nextImageLink {
+    order: 2;
     align-self: center;
     margin: 2rem;
 }
@@ -303,9 +312,6 @@ option {
 .lightboxContent .fa-angle-right {
     color:#901C1C;
     font-size: 5rem;
-    order: 2;
-    align-self: center;
-    margin: 2rem;
 }
 
 .lightboxContent .fa-xmark {
@@ -336,18 +342,20 @@ option {
     right: 25px;
 }
 
-.modal header {
+.header_modal {
     width: 100%;
+    margin-bottom: 10px;
 }
 
-.modal header img {
-    cursor: pointer;
-}
-
-.modal header h2 {
+.header_modal h2 {
     font-size: 64px;
     font-weight: normal;
-    text-align: center;
+    text-align: start;
+    margin: 0;
+}
+
+.modal img {
+    cursor: pointer;
 }
 
 form {
@@ -385,6 +393,10 @@ form textarea {
 }
 
 form input.message {
+}
+
+.through_sorting {
+    pointer-events: none;
 }
 
 * {
