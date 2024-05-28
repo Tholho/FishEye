@@ -8,7 +8,7 @@ const list = document.querySelector(".sortingSelector");
 
 function displaySort() {
     button.style.display = "none";
-    button.ariaExpanded =  "true";
+    button.ariaExpanded = "true";
     list.style.display = "block";
 }
 
@@ -56,7 +56,7 @@ function displayHeaderDOM(photographerDOM) {
     const photographerHeader = document.querySelector(".photograph-header");
 
     const name_modal = document.querySelector(".name_modal");
-    name_modal.innerText =  photographerDOM.h2_name.innerText;
+    name_modal.innerText = photographerDOM.h2_name.innerText;
 
     const modal = document.querySelector(".modal");
     modal.ariaLabel = "Contact me " + photographerDOM.h2_name.innerText;
@@ -93,7 +93,7 @@ async function fillLightbox(domElem) {
 
     //Extracting image and title from DOM
     let media = cloneToLightbox.firstChild;
-    let mediaTitle = cloneToLightbox.firstChild.nextSibling.firstChild.textContent;
+    let mediaTitle = media.nextSibling.firstChild.textContent;
 
     let h2_mediaTitle = document.createElement('h2');
     h2_mediaTitle.textContent = mediaTitle;
@@ -218,17 +218,17 @@ function setupSort() {
         const prevSibling = event.target.previousElementSibling;
         const nextSibling = event.target.nextElementSibling;
 
-      if (event.key === "ArrowUp" || (event.shiftKey && event.key === "Tab") && prevSibling?.nodeName == "LI") {
-        prevSibling.focus();
-      }
-      else if (event.key === "ArrowDown" || (!event.shiftKey && event.key === "Tab") && nextSibling?.nodeName == "LI") {
-        nextSibling.focus();
-      }
+        if (event.key === "ArrowUp" || (event.shiftKey && event.key === "Tab") && prevSibling?.nodeName == "LI") {
+            prevSibling.focus();
+        }
+        else if (event.key === "ArrowDown" || (!event.shiftKey && event.key === "Tab") && nextSibling?.nodeName == "LI") {
+            nextSibling.focus();
+        }
     }
 
     function selectAria(event) {
         list.setAttribute("aria-activedescendant", event.target.id);
-      //  event.target.ariaSelected = "true";
+        //  event.target.ariaSelected = "true";
     }
 
     function deselectAria(event) {
@@ -274,13 +274,13 @@ async function displayData(photographers, id, media) {
     const list = document.querySelector(".sortingSelector");
     button.addEventListener("click", displaySortList);
 
-    
+
     function displaySortList() {
         const firstListItem = list.querySelector("li");
         displaySort();
         firstListItem.focus();
 
-        
+
         /*
         lastListItem.addEventListener("keydown", loopFocusEnd);
         firstListItem.addEventListener("keydown", loopFocusBegin);
@@ -292,7 +292,7 @@ async function displayData(photographers, id, media) {
             let target = event.target;
             if (target.role != "option") {
                 cancelSort();
-               // lastListItem.removeEventListener("focusout", loopFocusEnd);
+                // lastListItem.removeEventListener("focusout", loopFocusEnd);
             }
             else {
                 portfolio.sortBy(target.dataset.value);
@@ -357,8 +357,8 @@ function submitForm(event) {
     event.preventDefault();
 
     form_inputs.forEach(input => {
-        if (input.value){
-        console.log(input.value);
+        if (input.value) {
+            console.log(input.value);
         }
     });
     closeModal();
@@ -410,32 +410,3 @@ function enterToClick(event) {
 };
 
 init();
-
-
-// ARIA LABELS SUR BUTTONS, INPUTS, LIKES ET SUR IMAGES AVEC ALT
-
-//Aria events 
-
-// const dropdownBtn = document.querySelector('.dropdownBtn');
-//const sortingSelector = document.querySelector('.sortingSelector');
-// const options = sortingSelector.querySelectorAll('[role="option"]');
-
-/*
-
-dropdownBtn.addEventListener('click', () => {
-    dropdownBtn.setAttribute('aria-expanded', true);
-    sortingSelector.style.display = !expanded ? 'block' : 'none';
-});
-dropdownBtn.addEventListener("keydown", enterToClick);
-
-options.forEach(option => {
-    option.addEventListener('focus', (event) => {
-        options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
-        event.currentTarget.setAttribute('aria-selected', 'true');
-        dropdownBtn.innerText = event.currentTarget.innerText;
-        dropdownBtn.setAttribute('aria-expanded', 'false');
-    });
-    option.addEventListener("keydown", enterToClick);
-});
-
-*/

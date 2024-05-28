@@ -1,9 +1,7 @@
 import UserCardDOM from "../oo/UserCardDOM";
-    
+    //control if it is in storage, if it is, return it, else it will set it in storage
     async function getPhotographers() {
         const data = sessionStorage.getItem("sessionJson");
-        console.log(data);
-        //control if it is in storage, if it is, return it
         if (data != null) {
             const jsonData = JSON.parse(data);
             return (jsonData);
@@ -51,7 +49,6 @@ import UserCardDOM from "../oo/UserCardDOM";
 
     async function displayData(photographers) {
         const photographersSection = document.querySelector(".photographer_section");
-        console.log(photographers)
         photographers.forEach((photographer) => {
             const photographerDOM = new UserCardDOM(photographer);
             const articleDOM = makeArticle(photographerDOM);
@@ -60,10 +57,8 @@ import UserCardDOM from "../oo/UserCardDOM";
     }
 
     async function init() {
-        // Récupère les datas des photographes
         const { photographers } = await getPhotographers();
         displayData(photographers)
-        .then(console.log("it took that time"));
     }
     
     init();

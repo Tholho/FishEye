@@ -81,6 +81,11 @@ header {
     justify-self: center;
 }
 
+.contact_button:hover,
+.contact_button:focus {
+    background-color: #D3573C;
+}
+
 .sortingGroup {
     display: flex;
     font-weight: 700;
@@ -107,6 +112,11 @@ header {
     border-radius: 5px;
 }
 
+.dropdownBtn:hover,
+.dropdownBtn:focus {
+    background-color: #D3573C;
+}
+
 .dropdownBtn i {
     pointer-events: none;
     text-align: right;
@@ -120,20 +130,31 @@ header {
     list-style-type: none;
     color:white;
     background-color: #901C1C;
-    padding: 0px 12px;
+    padding: 0px 0px;
     font-size: 1.125rem;
     font-weight: 700;
     border-radius: 5px;
     z-index: 1;
 }
 
+
+.through_sorting {
+    pointer-events: none;
+    margin-left: 10px;
+}
+
 .sortingSelector li i {
 }
 
 .sortingSelector li {
-    padding: 1rem 0rem;
+    padding: 16px 12px;
     display: flex;
     justify-content: space-between;
+}
+
+.sortingSelector li:hover,
+.sortingSelector li:focus {
+    background-color: #D3573C;
 }
 
 .sortingSelector ul:nth-child(1) {
@@ -146,7 +167,7 @@ header {
 }
 
 .sortingSelector li:not(:nth-of-type(3)) {
-    border-bottom: 2px solid #FAFAFA;
+    border-bottom: 1px solid #FAFAFA;
     }
 
 
@@ -210,6 +231,15 @@ option {
     align-content: center;
     align-self: center;
     align-items: center;
+    
+}
+
+.divLikes {
+    transition: color 0.5s;
+}
+
+.divLikes:hover {
+    color: #D3573C
 }
 
 .likes_price {
@@ -395,9 +425,6 @@ form textarea {
 form input.message {
 }
 
-.through_sorting {
-    pointer-events: none;
-}
 
 * {
   //  border: 1px solid black;
