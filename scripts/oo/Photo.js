@@ -38,5 +38,5 @@ export default class Photo {
     makeArticle() {
         const article = this.article;
         return (article)
-    }   
+    }
 }

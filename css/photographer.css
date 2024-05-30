@@ -53,7 +53,7 @@ header {
 .photograph-header .photographerTagline {
     font-size: 1.125rem;
     color: #000000;
-    margin:10px;
+    margin: 10px;
 }
 
 .photograph-header img {
@@ -63,7 +63,7 @@ header {
     border-radius: 100%;
     object-fit: cover;
     justify-self: end;
-    box-shadow: inset 10px 15px 10px rgba(0, 0, 0, 0.5); 
+    box-shadow: inset 10px 15px 10px rgba(0, 0, 0, 0.5);
 }
 
 .contact_button {
@@ -104,7 +104,7 @@ header {
 
 .dropdownBtn {
     border: none;
-    color:white;
+    color: white;
     background-color: #901C1C;
     padding: 1rem 10px;
     font-size: 1.125rem;
@@ -125,10 +125,10 @@ header {
 
 .sortingSelector {
     display: none;
-    position:absolute;
+    position: absolute;
     top: -45px;
     list-style-type: none;
-    color:white;
+    color: white;
     background-color: #901C1C;
     padding: 0px 0px;
     font-size: 1.125rem;
@@ -232,7 +232,7 @@ option {
     align-content: center;
     align-self: center;
     align-items: center;
-    
+
 }
 
 .divLikes:hover {
@@ -242,8 +242,8 @@ option {
 .likes_price {
     font-weight: 600;
     background-color: #DB8876;
-    position:fixed;
-    display:flex;
+    position: fixed;
+    display: flex;
     right: 120px;
     bottom: 0px;
     align-items: center;
@@ -289,8 +289,7 @@ option {
     margin: 8px 0px 0px 0px;
 }
 
-.mediaPart {
-}
+.mediaPart {}
 
 .imgAndTitle {
     display: flex;
@@ -307,15 +306,14 @@ option {
 }
 
 .imgAndTitle img,
-.imgAndTitle video
- {
+.imgAndTitle video {
     max-width: 100%;
     max-height: 80vh;
     object-fit: contain;
 }
 
 .lightboxContent .lightboxTitle {
-    color:#901C1C;
+    color: #901C1C;
     font-size: 1.5rem;
 }
 
@@ -326,7 +324,7 @@ option {
 }
 
 .lightboxContent .fa-angle-left {
-    color:#901C1C;
+    color: #901C1C;
     font-size: 5rem;
 }
 
@@ -337,12 +335,12 @@ option {
 }
 
 .lightboxContent .fa-angle-right {
-    color:#901C1C;
+    color: #901C1C;
     font-size: 5rem;
 }
 
 .lightboxContent .fa-xmark {
-    color:#901C1C;
+    color: #901C1C;
     font-size: 5rem;
     position: absolute;
     right: 2rem;
@@ -352,7 +350,7 @@ option {
 
 
 .modal {
-    position:relative;
+    position: relative;
     border-radius: 5px;
     background-color: #DB8876;
     width: 50%;
@@ -364,7 +362,7 @@ option {
 }
 
 .modal .closeSVG {
-    position:absolute;
+    position: absolute;
     top: 25px;
     right: 25px;
 }
@@ -419,10 +417,9 @@ form textarea {
     max-width: 100%;
 }
 
-form input.message {
-}
+form input.message {}
 
 
 * {
-  //  border: 1px solid black;
+    //  border: 1px solid black;
 }

@@ -2,7 +2,7 @@ export default class Video {
     constructor(data) {
         const file = `assets/media/${data.photographerId}/${data.video}`;
         this.article = document.createElement('article');
-        const media  = document.createElement('video');
+        const media = document.createElement('video');
         const src = document.createElement('source');
         const div_text = document.createElement('div');
         const h3_title = document.createElement('h3');
@@ -39,5 +39,5 @@ export default class Video {
     makeArticle() {
         const article = this.article;
         return (article)
-    }   
+    }
 }

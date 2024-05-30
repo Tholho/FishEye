@@ -18,6 +18,7 @@ function cancelSort() {
     button.ariaExpanded = "false";
 }
 
+
 const cancelHandler = e => {
     const button = document.querySelector(".dropdownBtn");
 
@@ -26,6 +27,7 @@ const cancelHandler = e => {
     }
 };
 
+//json to data, either it comes from the original file, either it comes from session storage
 async function getPhotographers() {
     const data = sessionStorage.getItem("sessionJson");
 
@@ -52,6 +54,7 @@ async function getPhotographers() {
     }
 }
 
+//Dynamic creation of the photographer infos section of the page
 function displayHeaderDOM(photographerDOM) {
     const photographerHeader = document.querySelector(".photograph-header");
 
@@ -79,9 +82,8 @@ function displayHeaderDOM(photographerDOM) {
     photographerHeader.appendChild(photographerDOM.img_photo);
 }
 
-//This big function creates all the DOM and its dynamic linking to allow navigation
+//This big function creates all the DOM and its dynamic linking to allow navigation among medias
 async function fillLightbox(domElem) {
-    console.log("tektek");
     const lightbox = document.querySelector("dialog");
     await lightbox.addEventListener("close", closeLightboxEvent);
 
@@ -213,6 +215,7 @@ async function makeGallery(portfolio) {
     }
 }
 
+//Laying event logic for keyboard navigation and dynamic aria attributes of sorting list
 function setupSort() {
     const listItems = list.querySelectorAll("li");
     function arrowSort(event) {
@@ -274,7 +277,7 @@ async function displayData(photographers, id, media) {
 
     await makeGallery(portfolio)
     await likesManager(portfolio);
- 
+
 
     const button = document.querySelector(".dropdownBtn");
     const list = document.querySelector(".sortingSelector");
@@ -300,7 +303,7 @@ async function displayData(photographers, id, media) {
                 button.innerHTML = target.textContent + `<i class="fa-solid fa-angle-down" title="Derouler le menu"></i>`;
                 button.style.display = "block";
                 makeGallery(portfolio)
-                .then(() => setupLightbox());
+                    .then(() => setupLightbox());
                 button.ariaExpanded = "false";
             }
         }
@@ -368,13 +371,13 @@ async function init() {
     let id = window.location.hash.substring(1);
     const { photographers, media } = await getPhotographers();
     displayData(photographers, id, media)
-    .then(() => setupLightbox())
-    .then(() => setupContact())
-    .then(() => setupSort());
+        .then(() => setupLightbox())
+        .then(() => setupContact())
+        .then(() => setupSort());
 };
 
 
-// Main likes function
+// Main likes function, ensures each media is only liked once but only client side
 function likesManager(portfolio) {
     const likesDOM = document.querySelectorAll(".divLikes i");
     likesDOM.forEach(like => {
