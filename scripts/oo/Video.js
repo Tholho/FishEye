@@ -33,6 +33,8 @@ export default class Video {
         this.likes = data.likes;
         this.order = 0;
         this.url = file;
+        this.liked = 0;
+        this.title = data.title;
     }
     makeArticle() {
         const article = this.article;

@@ -143,11 +143,9 @@ header {
     margin-left: 10px;
 }
 
-.sortingSelector li i {
-}
-
 .sortingSelector li {
-    padding: 16px 12px;
+    margin: 1px 5px;
+    padding: 16px 2px;
     display: flex;
     justify-content: space-between;
 }
@@ -168,7 +166,7 @@ header {
 
 .sortingSelector li:not(:nth-of-type(3)) {
     border-bottom: 1px solid #FAFAFA;
-    }
+}
 
 
 option {
@@ -208,9 +206,6 @@ option {
     color: #901C1C;
     font-size: 1.5rem;
     margin: 0;
-}
-
-.gallery_content article h3 {
 }
 
 .textData h3 {

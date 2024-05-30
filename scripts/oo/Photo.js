@@ -17,7 +17,8 @@ export default class Photo {
         this.article.appendChild(media);
         h3_title.textContent = data.title;
         div_text.appendChild(h3_title);
-        p_likes.textContent = data.likes;
+        this.likes = data.likes;
+        p_likes.textContent = this.likes;
         p_likes.classList.add("mediumLikes");
         fa_likes.classList.add("fa-solid", "fa-heart");
         fa_likes.ariaLabel = "likes";
@@ -29,9 +30,10 @@ export default class Photo {
         this.article.appendChild(div_text);
         this.date = data.date;
         this.price = data.price;
-        this.likes = data.likes;
         this.order = 0;
         this.url = picture;
+        this.liked = 0;
+        this.title = data.title;
     }
     makeArticle() {
         const article = this.article;

@@ -81,6 +81,7 @@ function displayHeaderDOM(photographerDOM) {
 
 //This big function creates all the DOM and its dynamic linking to allow navigation
 async function fillLightbox(domElem) {
+    console.log("tektek");
     const lightbox = document.querySelector("dialog");
     await lightbox.addEventListener("close", closeLightboxEvent);
 
@@ -193,62 +194,30 @@ async function makeGallery(portfolio) {
     const gallery = document.querySelector(".gallery_section")
     const content = document.createElement("div");
     content.classList.add("gallery_content");
-    let i = 0;
-
 
     const promises = portfolio.medias.map(media => {
         const unit = new MediaFactory(media);
         return fetch(unit.url)
-        .then(response => {
-            if (response.ok) {
-            const art = unit.makeArticle();
-            content.appendChild(art);
-            i++;
-            }
-        })
-    })
-
-
-    /*
-    const promises = portfolio.medias.map(media => {
-        const unit = new MediaFactory(media);
-        let exists = fetch(unit.url);
-        exists.then(response => {
-            if (response.ok) {
-            const art = unit.makeArticle();
-            content.appendChild(art);
-            i++;
-            likesManager();
-            }
-        })
-    })
-
-
-    await portfolio.medias.forEach((media) => {
-        const unit = new MediaFactory(media);
-                let exists = fetch(unit.url);
-                if (exists) {
-                console.log(exists);
+            .then(response => {
+                if (response.ok) {
+                    const art = unit.makeArticle();
+                    content.appendChild(art);
                 }
-                exists.then(response => {
-                    if (response.ok) {
-                        const art = unit.makeArticle();
-                        content.appendChild(art);
-                        i++;
-                        console.log(i);
-                    }
-                });
-                //console.log(exists.status);
-    });*/
-    await Promise.all(promises);
-  //  likesManager();
-    let galleryExists = document.querySelector(".gallery_content")
-    //controls if gallery exists, if it does, replace it
-    if (galleryExists) {
-        galleryExists.replaceWith(content);
-    }
-    else {
-        gallery.appendChild(content);
+            })
+    })
+    console.log(promises);
+    Promise.all(promises)
+    .then(() => makeReplaceGallery())
+    .then(() => likesManager(portfolio));
+
+    function makeReplaceGallery() {
+        let galleryExists = document.querySelector(".gallery_content")
+        if (galleryExists) {
+            galleryExists.replaceWith(content);
+        }
+        else {
+            gallery.appendChild(content);
+        }
     }
 }
 
@@ -272,7 +241,6 @@ function setupSort() {
 
     function selectAria(event) {
         list.setAttribute("aria-activedescendant", event.target.id);
-        //  event.target.ariaSelected = "true";
     }
 
     function deselectAria(event) {
@@ -313,12 +281,8 @@ async function displayData(photographers, id, media) {
     const portfolio = new Portfolio(media, id);
 
     await makeGallery(portfolio)
-    await likesManager();
-    /*
-    await makeGallery(portfolio)
-    await likesManager();
-    */
-
+    .then(() => likesManager());
+ 
 
     const button = document.querySelector(".dropdownBtn");
     const list = document.querySelector(".sortingSelector");
@@ -330,11 +294,6 @@ async function displayData(photographers, id, media) {
         displaySort();
         firstListItem.focus();
 
-
-        /*
-        lastListItem.addEventListener("keydown", loopFocusEnd);
-        firstListItem.addEventListener("keydown", loopFocusBegin);
-        */
         document.removeEventListener("click", cancelHandler);
         document.addEventListener("click", cancelHandler);
         list.onclick = function (event) {
@@ -342,15 +301,14 @@ async function displayData(photographers, id, media) {
             let target = event.target;
             if (target.role != "option") {
                 cancelSort();
-                // lastListItem.removeEventListener("focusout", loopFocusEnd);
             }
             else {
                 portfolio.sortBy(target.dataset.value);
                 target.parentNode.style.display = "none";
                 button.innerHTML = target.textContent + `<i class="fa-solid fa-angle-down" title="Derouler le menu"></i>`;
                 button.style.display = "block";
-                makeGallery(portfolio);
-                setupLightbox();
+                makeGallery(portfolio)
+                .then(() => setupLightbox());
                 button.ariaExpanded = "false";
             }
         }
@@ -362,7 +320,9 @@ async function displayData(photographers, id, media) {
 
 // Links the lightbox event to each media
 function setupLightbox() {
+    console.log("tcheck");
     const mediaToLightbox = document.querySelectorAll(".mediaPart");
+    console.log(mediaToLightbox);
     mediaToLightbox.forEach(media => {
         media.addEventListener("click", showLightbox);
         media.addEventListener("keydown", enterToClick);
@@ -402,10 +362,9 @@ function setupContact() {
 
 // Contact form submit event
 function submitForm(event) {
-    const form_inputs = document.querySelectorAll("input, textarea");
-
     event.preventDefault();
 
+    const form_inputs = document.querySelectorAll("input, textarea");
     form_inputs.forEach(input => {
         if (input.value) {
             console.log(input.value);
@@ -418,25 +377,27 @@ function submitForm(event) {
 async function init() {
     let id = window.location.hash.substring(1);
     const { photographers, media } = await getPhotographers();
-    await displayData(photographers, id, media);
-    await setupLightbox();
-    await setupContact();
-    await setupSort();
+    displayData(photographers, id, media)
+    .then(() => setupLightbox())
+    .then(() => setupContact())
+    .then(() => setupSort());
 };
 
 
-// This adds a like when user interacts with heart icon and updates sticky footer
-function incrementLike(event) {
-    event.target.previousSibling.innerText = +event.target.previousSibling.innerText + 1;
-    event.target.removeEventListener("click", incrementLike);
-    totalLikes();
-}
-
 // Main likes function
-function likesManager() {
+function likesManager(portfolio) {
     const likesDOM = document.querySelectorAll(".divLikes i");
     likesDOM.forEach(like => {
-        like.addEventListener("click", incrementLike);
+        like.addEventListener("click", function incrementLike(event) {
+            const medialikes = portfolio.medias.find(media => media.title === event.target.parentNode.previousElementSibling.innerText);
+            if (medialikes.liked != 1) {
+                medialikes.liked = 1;
+                medialikes.likes++;
+                event.target.previousSibling.innerText = +event.target.previousSibling.innerText + 1;
+                event.target.removeEventListener("click", incrementLike);
+            }
+            totalLikes();
+        });
     });
     totalLikes();
 }
@@ -450,7 +411,6 @@ function totalLikes() {
     });
     const likes_footer = document.querySelector(".likes_footer");
     likes_footer.innerText = total;
-
 }
 
 // Allows to easily makes "Enter Key" trigger click events
