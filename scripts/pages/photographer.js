@@ -194,21 +194,13 @@ async function makeGallery(portfolio) {
     const gallery = document.querySelector(".gallery_section")
     const content = document.createElement("div");
     content.classList.add("gallery_content");
-
-    const promises = portfolio.medias.map(media => {
+    portfolio.medias.forEach(media => {
         const unit = new MediaFactory(media);
-        return fetch(unit.url)
-            .then(response => {
-                if (response.ok) {
-                    const art = unit.makeArticle();
-                    content.appendChild(art);
-                }
-            })
+        const art = unit.makeArticle();
+        content.appendChild(art);
     })
-    console.log(promises);
-    Promise.all(promises)
-    .then(() => makeReplaceGallery())
-    .then(() => likesManager(portfolio));
+    makeReplaceGallery();
+    likesManager(portfolio);
 
     function makeReplaceGallery() {
         let galleryExists = document.querySelector(".gallery_content")
@@ -281,7 +273,7 @@ async function displayData(photographers, id, media) {
     const portfolio = new Portfolio(media, id);
 
     await makeGallery(portfolio)
-    .then(() => likesManager());
+    await likesManager(portfolio);
  
 
     const button = document.querySelector(".dropdownBtn");
@@ -320,9 +312,7 @@ async function displayData(photographers, id, media) {
 
 // Links the lightbox event to each media
 function setupLightbox() {
-    console.log("tcheck");
     const mediaToLightbox = document.querySelectorAll(".mediaPart");
-    console.log(mediaToLightbox);
     mediaToLightbox.forEach(media => {
         media.addEventListener("click", showLightbox);
         media.addEventListener("keydown", enterToClick);
