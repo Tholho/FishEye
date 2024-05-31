@@ -386,11 +386,14 @@ function likesManager(portfolio) {
             if (medialikes.liked != 1) {
                 medialikes.liked = 1;
                 medialikes.likes++;
+                event.target.parentNode.classList.add("liked");
                 event.target.previousSibling.innerText = +event.target.previousSibling.innerText + 1;
                 event.target.removeEventListener("click", incrementLike);
+                event.target.removeEventListener("keydown", enterToClick);
             }
             totalLikes();
         });
+        like.addEventListener("keydown", enterToClick);
     });
     totalLikes();
 }

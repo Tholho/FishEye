@@ -21,6 +21,7 @@ export default class Photo {
         p_likes.textContent = this.likes;
         p_likes.classList.add("mediumLikes");
         fa_likes.classList.add("fa-solid", "fa-heart");
+        fa_likes.tabIndex = 0;
         fa_likes.ariaLabel = "likes";
         div_likes.appendChild(p_likes);
         div_likes.appendChild(fa_likes);
