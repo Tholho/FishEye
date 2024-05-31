@@ -235,7 +235,8 @@ option {
 
 }
 
-.divLikes:hover{
+.divLikes:hover,
+.divLikes.liked {
     color: #D3573C
 }
 
